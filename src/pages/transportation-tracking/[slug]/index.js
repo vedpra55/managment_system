@@ -27,7 +27,7 @@ export default function AddTransportationTracking() {
     fetchSingleUnTransportationTracking
   );
 
-  if (isLoading) {
+  if (!data) {
     return <div className="my-container">Loading...</div>;
   }
 
@@ -36,8 +36,6 @@ export default function AddTransportationTracking() {
   const receivedStatus = tracking?.receivedStatus;
   const fromPortBlair = data?.fromPortBlair;
   const fromChennai = data?.fromChennai;
-
-  console.log(tracking);
 
   function handleClick(tab) {
     setSelectedTab(tab);
@@ -253,8 +251,6 @@ export default function AddTransportationTracking() {
       ),
     },
   ];
-
-  const columns = [{}];
 
   return (
     <>

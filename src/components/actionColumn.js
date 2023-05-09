@@ -3,7 +3,7 @@ import React from "react";
 import { MdModeEdit, MdDelete } from "react-icons/md";
 import { MyButton } from "./Button/button";
 
-export default function ActionColumn({ id, href, handleDelete }) {
+export default function ActionColumn({ id, href, handleDelete, hideDelete }) {
   return (
     <div className="flex items-center,  gap-x-2">
       <Link
@@ -13,14 +13,16 @@ export default function ActionColumn({ id, href, handleDelete }) {
         <MdModeEdit className="text-[16px] flex-1" />
         <span>Edit</span>
       </Link>
-      <MyButton
-        w={"w-24"}
-        c={" bg-red-600"}
-        tc={"text-white"}
-        handleClick={() => handleDelete(id)}
-        icon={<MdDelete />}
-        label={"Delete"}
-      />
+      {!hideDelete && (
+        <MyButton
+          w={"w-24"}
+          c={" bg-red-600"}
+          tc={"text-white"}
+          handleClick={() => handleDelete(id)}
+          icon={<MdDelete />}
+          label={"Delete"}
+        />
+      )}
     </div>
   );
 }
