@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.myshadow {
+  box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
+}
+
+@layer base {
+  .main-btn {
+    @apply flex  hover:scale-110 transition-all items-center px-5 gap-x-4 bg-black text-white rounded-lg py-3 cursor-pointer hover:bg-black/70;
+  }
+  .my-container {
+    @apply container px-10 py-10;
+  }
+  .text-input {
+    @apply mt-2 w-[80%] overflow-hidden focus:scale-105 transition-all rounded-xl py-3 outline-gray-300  bg-transparent focus:shadow-lg px-5 border-2;
+  }
+}
