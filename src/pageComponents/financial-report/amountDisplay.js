@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "./Card";
+import NumberDisplay from "../../components/NumberDisplay";
 
 export default function AmountDisplay({ amounts }) {
   const totalExpense = amounts?.totalExpense;
@@ -11,10 +11,10 @@ export default function AmountDisplay({ amounts }) {
     <div>
       <h2 className="pb-5 text-2xl font-semibold">Overview</h2>
       <div className="grid grid-cols-12 gap-10">
-        <Card title="Total Sales" amount={totalSales} />
-        <Card title="Total Expense" amount={totalExpense} />
-        <Card title="Total Petty Cash" amount={totalPettyCash} />
-        <Card title="Total Purchase" amount={totalPurchase} />
+        <NumberDisplay title="Total Sales" amount={totalSales} />
+        <NumberDisplay title="Total Expense" amount={totalExpense} />
+        <NumberDisplay title="Total Petty Cash" amount={totalPettyCash} />
+        <NumberDisplay title="Total Purchase" amount={totalPurchase} />
       </div>
     </div>
   );

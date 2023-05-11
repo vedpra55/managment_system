@@ -10,6 +10,8 @@ import DataGrid from "@/components/Data Grid/datagrid";
 import ActionColumn from "@/components/actionColumn";
 import useApiHandler from "@/hooks/useApiHandler";
 import { useState } from "react";
+import AmountDisplay from "@/pageComponents/financial-report/amountDisplay";
+import NumberDisplay from "@/components/NumberDisplay";
 
 export default function WorkOrder() {
   const [reloadData, setReloadData] = useState(false);
@@ -103,7 +105,12 @@ export default function WorkOrder() {
         label={"New Work Order"}
         icon={<BsHddNetworkFill />}
       />
-
+      <NumberDisplay
+        w={"w-56"}
+        m={"mt-5"}
+        title={"Total Work Order"}
+        amount={data?.totalWorkOrder}
+      />
       <DataGrid
         title={"Work Orders"}
         columns={columns}

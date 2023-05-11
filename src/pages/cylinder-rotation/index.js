@@ -1,5 +1,6 @@
 import MyDataGrid from "@/components/Data Grid/datagrid";
 import Sidebar from "@/components/Sidebar/sidebar";
+import ActionColumn from "@/components/actionColumn";
 
 import { fetchWorkOrderType } from "@/service/apiCalls";
 import Head from "next/head";
@@ -42,6 +43,18 @@ export default function CylinderRotation() {
       field: "remark",
       headerName: "Remark",
       width: 150,
+    },
+    {
+      field: "_id",
+      headerName: "Action",
+      width: 250,
+      renderCell: (params) => (
+        <ActionColumn
+          href={`/work-order/${params.value}`}
+          id={params.value}
+          hideDelete={true}
+        />
+      ),
     },
   ];
 

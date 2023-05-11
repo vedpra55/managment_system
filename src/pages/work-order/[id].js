@@ -28,26 +28,26 @@ export default function WorkOrderDetails() {
       name: "sNo",
       type: "text",
       placeholder: "S.No",
-      required: true,
+      required: false,
     },
     {
       name: "date",
       type: "date",
       placeholder: "Date",
-      required: true,
+      required: false,
     },
     {
       name: "orderType",
       type: "select",
       placeholder: "Order Type",
-      required: true,
+      required: false,
       values: ["Select", "SALE", "TESTING", "FILLING"],
     },
     {
       name: "cylinderType",
       type: "select",
       placeholder: "Cylinder Type",
-      required: true,
+      required: false,
       values: [
         "Select",
         "OXYGEN",
@@ -59,48 +59,49 @@ export default function WorkOrderDetails() {
     },
     {
       name: "cylinderNumber",
-      type: "number",
+      type: "textArea",
       placeholder: "Cylinder Number",
-      required: true,
+      required: false,
+      search: true,
     },
     {
       name: "quantity",
-      type: "number",
+      type: "textArea",
       placeholder: "Quantity",
-      required: true,
+      required: false,
     },
     {
       name: "size",
       type: "select",
       placeholder: "Size",
-      required: true,
+      required: false,
       values: ["Select", "7 CBM", "2.5 CBM", "4.5 CBM", "6 CBM"],
     },
     {
       name: "partyType",
       type: "select",
       placeholder: "Party Type",
-      required: true,
+      required: false,
       values: ["Select", "PRIVATE", "GOVT", "SELF"],
     },
     {
       name: "partyDetails",
       type: "text",
       placeholder: "Party Details",
-      required: true,
+      required: false,
     },
     {
       name: "workOfStatus",
       type: "text",
       placeholder: "Work Status",
       values: ["Select", "IN PROGRESS", "HOLD", "PENDING", "COMPLETED"],
-      required: true,
+      required: false,
     },
     {
       name: "billAmount",
       type: "Number",
       placeholder: "Bill Amount",
-      required: true,
+      required: false,
     },
     {
       name: "invoice",
@@ -111,18 +112,18 @@ export default function WorkOrderDetails() {
       name: "invoiceDate",
       type: "date",
       placeholder: "Invoice Date",
-      required: true,
+      required: false,
     },
     {
       name: "modeOfPayment",
       placeholder: "Mode of Payment",
-      required: true,
+      required: false,
       values: ["Select", "UPI", "CASH", "CHEQE", "NEFT"],
     },
     {
       name: "paymentStatus",
       placeholder: "Payment Status",
-      required: true,
+      required: false,
       values: ["Select", "PENDING", "DONE"],
     },
     {
@@ -145,13 +146,17 @@ export default function WorkOrderDetails() {
     const item = {
       ...data,
       invoice: invoice,
-      date: new Date(data.date).toISOString(),
-      invoiceDate: new Date(data.invoiceDate).toISOString(),
+      date: data?.date ? new Date(data.date).toISOString() : "",
+      invoiceDate: data?.invoiceDate
+        ? new Date(data.invoiceDate).toISOString()
+        : "",
       dueDate: data?.dueDate ? new Date(data.dueDate).toISOString() : "",
     };
 
     await updateItem(`/api/work-order/${ids}`, item);
   }
+
+  console.log(data?.workOrder);
 
   return (
     <>

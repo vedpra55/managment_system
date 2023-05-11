@@ -1,3 +1,4 @@
+import CylinderStock from "@/models/cylinderStock";
 import WorkOrder from "@/models/workOrder";
 
 const { default: dbConnect } = require("@/lib/db");
@@ -45,12 +46,12 @@ export default async function handler(req, res) {
           date,
           orderType,
           cylinderType,
-          cylinderNumber: parseInt(cylinderNumber),
-          quantity: parseInt(quantity),
+          cylinderNumber,
+          quantity: parseInt(quantity) || 0,
           size,
           partyType,
           partyDetails,
-          billAmount: parseInt(billAmount),
+          billAmount: parseInt(billAmount) || 0,
           invoiceDate,
           invoice,
           modeOfPayment,

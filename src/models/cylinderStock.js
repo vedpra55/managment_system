@@ -18,12 +18,17 @@ const CylinderStockSchema = Schema({
     required: true,
   },
   cylinderNumber: {
-    type: Number,
+    type: String,
     required: true,
+    index: true,
   },
 });
 
 const CylinderStock =
   models?.cylinderStock || model("cylinderStock", CylinderStockSchema);
+
+CylinderStockSchema.index({
+  cylinderNumber: "text",
+});
 
 export default CylinderStock;

@@ -8,6 +8,7 @@ import { fetchCylinderStocks } from "@/service/apiCalls";
 import MyDataGrid from "@/components/Data Grid/datagrid";
 import ActionColumn from "@/components/actionColumn";
 import useApiHandler from "@/hooks/useApiHandler";
+import NumberDisplay from "@/components/NumberDisplay";
 
 export default function CylinderStock() {
   const [reloadData, setReloadData] = useState(false);
@@ -67,6 +68,15 @@ export default function CylinderStock() {
     },
   ];
 
+  const labels = [
+    "Total Stock",
+    "Total Oxygen Stock",
+    "Total Nitrogen Stock",
+    "Total CO2 Stock",
+    "Total Fire extinguisher Stock",
+    "Total acetylene stock",
+  ];
+
   return (
     <>
       <Head>
@@ -78,6 +88,13 @@ export default function CylinderStock() {
           label={"New Cylinder Stock"}
           icon={<BiCylinder />}
         />
+
+        <div className="mt-5 grid grid-cols-12 gap-5">
+          {data?.amounts.map((item, i) => (
+            <NumberDisplay title={labels[i]} amount={item} />
+          ))}
+        </div>
+
         <MyDataGrid
           title={"Cylinder Stocks"}
           columns={columns}

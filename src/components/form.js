@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput, SelectInput } from "./Input/input";
 import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
@@ -17,11 +17,30 @@ function Form({
   const { handleSubmit, register, watch, reset } = useForm();
 
   const orderType = watch("orderType");
+  const realCylinderNumber = watch("cylinderNumber");
+  const [cylinderStock, setCylinderStock] = useState([]);
+  const [cylinderNumber, setCylinderNumber] = useState("");
+
+  async function handleSearch() {
+    if (cylinderNumber) {
+      const res = await fetch(
+        `/api/cylinder-stock?cylinderNumber=${cylinderNumber.toString()}`
+      );
+
+      const json = await res.json();
+
+      setCylinderStock(json?.cylinderStock);
+
+      console.log(json);
+    }
+  }
 
   useEffect(() => {
-    if (defaultValues) {
-      reset(defaultValues);
-    }
+    handleSearch();
+  }, [cylinderNumber]);
+
+  useEffect(() => {
+    reset(defaultValues);
   }, [defaultValues]);
 
   return (
@@ -46,14 +65,17 @@ function Form({
           {fields.map((item) => (
             <React.Fragment key={item.placeholder}>
               <div className="col-span-6">
-                {!item?.values && item.type !== "autoID" && !item?.optional && (
-                  <TextInput
-                    type={item?.type}
-                    label={item.placeholder}
-                    name={item.name}
-                    register={register}
-                  />
-                )}
+                {!item?.values &&
+                  item.type !== "autoID" &&
+                  item.type !== "textArea" &&
+                  !item?.optional && (
+                    <TextInput
+                      type={item?.type}
+                      label={item.placeholder}
+                      name={item.name}
+                      register={register}
+                    />
+                  )}
                 {item?.values && (
                   <SelectInput
                     values={item?.values}
@@ -89,6 +111,56 @@ function Form({
                       className="mt-2 w-[80%] overflow-hidden focus:scale-105 transition-all rounded-xl py-3 outline-gray-300  bg-transparent focus:shadow-lg px-5 border-2"
                     />
                   </>
+                )}
+                {item.type === "textArea" && (
+                  <div className="flex flex-col">
+                    <label className=" block text-[14px] font-medium mt-2">
+                      {item.placeholder}
+                    </label>
+                    <textarea
+                      className="mt-2 w-[80%] overflow-hidden focus:scale-105 transition-all rounded-xl py-3 outline-gray-300  bg-transparent focus:shadow-lg px-5 border-2"
+                      required={item.required}
+                      {...register(item.name)}
+                      rows={4}
+                    />
+
+                    {item.search && (
+                      <input
+                        value={cylinderNumber}
+                        onChange={(e) => setCylinderNumber(e.target.value)}
+                        className="mt-2 w-[80%] overflow-hidden focus:scale-105 transition-all rounded-xl py-1 outline-gray-300  bg-transparent focus:shadow-lg px-5 border-2 placeholder:text-gray-500"
+                        type="text"
+                        placeholder="search cylinder number"
+                      />
+                    )}
+
+                    {item.search &&
+                      cylinderStock?.length > 0 &&
+                      cylinderStock?.map(
+                        (item) =>
+                          item.quantity > 0 && (
+                            <div
+                              className="my-2 bg-gray-100 rounded-lg font-medium text-[14px] py-2 px-4 cursor-pointer hover:bg-gray-300 w-64"
+                              key={item.key}
+                            >
+                              <p
+                                onClick={() => {
+                                  const d = {
+                                    cylinderNumber: realCylinderNumber
+                                      ? realCylinderNumber +
+                                        "\r\n" +
+                                        item.cylinderNumber
+                                      : item.cylinderNumber,
+                                  };
+                                  reset(d);
+                                }}
+                              >
+                                {item.cylinderNumber}
+                              </p>
+                            </div>
+                          )
+                      )}
+                  </div>
                 )}
               </div>
             </React.Fragment>
