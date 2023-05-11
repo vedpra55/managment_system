@@ -105,7 +105,7 @@ export default function CylinderCategoryPage() {
       </Head>
       <main className="my-container">
         <MyDataGrid
-          title={`${slug} Stocks`}
+          title={`${slug} Work Order`}
           columns={columns}
           data={data?.workOrders}
         />
