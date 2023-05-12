@@ -17,6 +17,10 @@ const StockUsageSchema = Schema({
     type: Number,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const StockUsage = models?.stockUsage || model("stockUsage", StockUsageSchema);

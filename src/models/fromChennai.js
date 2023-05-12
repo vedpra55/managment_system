@@ -31,6 +31,10 @@ const FromChennaiSchema = Schema({
   from: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const FromChennai =

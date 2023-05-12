@@ -29,6 +29,10 @@ const PettyCashSchema = Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const PettyCash = models?.pettyCash || model("pettyCash", PettyCashSchema);

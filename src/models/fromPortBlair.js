@@ -31,6 +31,10 @@ const FromPortBlairSchema = Schema({
   from: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const FromPortBlair =

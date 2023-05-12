@@ -13,6 +13,10 @@ const FirePartStockSchema = Schema({
   quantity: {
     type: Number,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const FirePartsStock =

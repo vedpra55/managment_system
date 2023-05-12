@@ -26,6 +26,10 @@ const CylinderStockSchema = Schema({
     type: Boolean,
     default: false,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const CylinderStock =

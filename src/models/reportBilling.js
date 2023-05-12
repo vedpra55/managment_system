@@ -33,6 +33,10 @@ const ReportBillingSchema = Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const ReportBilling =

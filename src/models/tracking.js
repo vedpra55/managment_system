@@ -21,7 +21,7 @@ const TrackingSchema = Schema({
   receivedStatus: {
     type: Boolean,
   },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: new Date() },
 });
 
 const TransportationTracking =
