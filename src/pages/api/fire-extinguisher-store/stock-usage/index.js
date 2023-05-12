@@ -1,3 +1,4 @@
+import FirePartsStock from "@/models/firePartsStock";
 import StockUsage from "@/models/stockUsage";
 
 const { default: dbConnect } = require("@/lib/db");
@@ -6,13 +7,25 @@ dbConnect();
 
 export default async function handler(req, res) {
   if (req.method == "POST") {
-    const { date, workOrder, product } = req.body;
+    const { date, workOrder, product, quantity } = req.body;
+
+    try {
+      await FirePartsStock.updateOne(
+        { spareType: product },
+        { $inc: { quantity: -quantity } }
+      );
+    } catch (err) {
+      return res.status(401).json({
+        error: err.message,
+      });
+    }
 
     try {
       await StockUsage.create({
         date,
         workOrder,
         product,
+        quantity,
       });
 
       res.status(200).json({

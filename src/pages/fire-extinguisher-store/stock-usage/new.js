@@ -25,7 +25,7 @@ export default function NewStockUsage() {
     },
     {
       name: "product",
-      type: "text",
+      type: "product",
       placeholder: "Product",
       required: true,
     },
@@ -33,6 +33,12 @@ export default function NewStockUsage() {
       name: "workOrder",
       type: "text",
       placeholder: "Work Order",
+      required: true,
+    },
+    {
+      name: "quantity",
+      type: "number",
+      placeholder: "Quantity",
       required: true,
     },
   ];
@@ -48,6 +54,7 @@ export default function NewStockUsage() {
           fields={fields}
           submitRef={submiitRef}
           handleSumbitForm={handleSubmit}
+          fromStockUsage={true}
         />
       </main>
     </>

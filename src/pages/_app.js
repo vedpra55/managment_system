@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import AuthContext from "@/context/authContext";
 import "@/styles/globals.css";
 import { useEffect, useState } from "react";
 
@@ -18,15 +19,17 @@ export default function App({ Component, pageProps }) {
   return (
     <main>
       <Toaster />
-      {getLayout(
-        <>
-          <Header />
-          <main>
-            <Component {...pageProps} />
-          </main>
-        </>,
-        pageProps
-      )}
+      <AuthContext>
+        {getLayout(
+          <>
+            <Header />
+            <main>
+              <Component {...pageProps} />
+            </main>
+          </>,
+          pageProps
+        )}
+      </AuthContext>
     </main>
   );
 }

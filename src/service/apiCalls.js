@@ -1,4 +1,4 @@
-export async function fetchWorkOrder() {
+export async function fetchWorkOrder(arg) {
   const res = await fetch("/api/work-order");
   return res.json();
 }

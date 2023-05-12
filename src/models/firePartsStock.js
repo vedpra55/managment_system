@@ -10,7 +10,6 @@ const FirePartStockSchema = Schema({
   size: {
     type: String,
   },
-
   quantity: {
     type: Number,
   },

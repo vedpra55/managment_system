@@ -22,6 +22,10 @@ const CylinderStockSchema = Schema({
     required: true,
     index: true,
   },
+  isEmpty: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const CylinderStock =

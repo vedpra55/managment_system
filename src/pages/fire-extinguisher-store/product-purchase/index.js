@@ -75,7 +75,6 @@ export default function AddProductPurchase() {
           submitRef={submitRef}
           handleSumbitForm={handleSumbitForm}
           fields={fields}
-          defaultValues={data?.productPurchase}
         />
       </div>
     </>

@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "PUT") {
-    const { date, workOrder, product } = req.body;
+    const { date, workOrder, product, quantity } = req.body;
 
     try {
       await StockUsage.updateOne(
@@ -25,6 +25,7 @@ export default async function handler(req, res) {
           date,
           workOrder,
           product,
+          quantity,
         }
       );
       res.status(200).json({

@@ -10,11 +10,11 @@ import DataGrid from "@/components/Data Grid/datagrid";
 import ActionColumn from "@/components/actionColumn";
 import useApiHandler from "@/hooks/useApiHandler";
 import { useState } from "react";
-import AmountDisplay from "@/pageComponents/financial-report/amountDisplay";
 import NumberDisplay from "@/components/NumberDisplay";
 
 export default function WorkOrder() {
   const [reloadData, setReloadData] = useState(false);
+  const [filterData, setFilterData] = useState(null);
   const { data } = useSwr(["work-order", reloadData], fetchWorkOrder);
   const { deleteItem } = useApiHandler();
 
@@ -98,6 +98,17 @@ export default function WorkOrder() {
     },
   ];
 
+  async function handleDateFilter(toDate, fromDate) {
+    const res = await fetch(
+      `/api/work-order?toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setFilterData(json?.workOrders);
+    }
+  }
+
   return (
     <div className="my-container ">
       <LinkButton
@@ -114,7 +125,8 @@ export default function WorkOrder() {
       <DataGrid
         title={"Work Orders"}
         columns={columns}
-        data={data?.workOrders}
+        data={filterData || data?.workOrders}
+        handleDateChange={handleDateFilter}
       />
     </div>
   );

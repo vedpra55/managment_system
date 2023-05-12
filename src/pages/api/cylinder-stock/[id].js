@@ -16,7 +16,8 @@ export default async function handler(req, res) {
   }
   if (req.method === "PUT") {
     const { id } = req.query;
-    const { date, cylinderType, size, quantity, cylinderNumber } = req.body;
+    const { date, cylinderType, size, quantity, cylinderNumber, isFilled } =
+      req.body;
 
     try {
       await CylinderStock.updateOne(
@@ -27,6 +28,7 @@ export default async function handler(req, res) {
           size,
           quantity: parseInt(quantity),
           cylinderNumber: parseInt(cylinderNumber),
+          isEmpty: !isFilled,
         }
       );
 

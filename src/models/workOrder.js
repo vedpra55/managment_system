@@ -56,6 +56,9 @@ const WorkOrderSchema = Schema({
     type: Date,
     default: new Date(),
   },
+  returnCylinderNumber: {
+    type: String,
+  },
 });
 
 const WorkOrder = models?.workOrder || model("workOrder", WorkOrderSchema);

@@ -35,13 +35,14 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const { cylinderNumber } = req.query;
+    const { cylinderNumber, toDate, fromDate } = req.query;
 
     const searchQuery = {
+      isEmpty: false,
       cylinderNumber: { $regex: cylinderNumber }, // search for first name containing 'j'
     };
 
-    if (cylinderNumber?.length > 3) {
+    if (cylinderNumber?.length > 1) {
       const cylinderStock = await CylinderStock.find(searchQuery).lean();
 
       return res.status(200).json({
@@ -49,7 +50,15 @@ export default async function handler(req, res) {
       });
     }
 
-    const cylinderStocks = await CylinderStock.find({}).lean();
+    let cylinderStocks;
+    if (toDate && fromDate) {
+      cylinderStocks = await CylinderStock.find({
+        isEmpty: false,
+        date: { $gte: toDate, $lte: fromDate },
+      }).lean();
+    } else {
+      cylinderStocks = await CylinderStock.find({ isEmpty: false }).lean();
+    }
 
     let totalStock = 0;
     for (let i = 0; i < cylinderStocks.length; i++) {
@@ -64,8 +73,11 @@ export default async function handler(req, res) {
     );
     const totalAcetyleStock = await GetCylinderStock("acetylene");
 
+    const emptyStocks = await CylinderStock.find({ isEmpty: true });
+
     return res.status(200).json({
       cylinderStocks,
+      emptyStocks,
       amounts: [
         totalStock,
         totalOxygenStock,

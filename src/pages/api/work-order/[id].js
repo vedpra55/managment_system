@@ -36,7 +36,25 @@ export default async function handler(req, res) {
       remark,
       workOfStatus,
       paymentStatus,
+      returnCylinderNumber,
     } = req.body;
+
+    if (returnCylinderNumber) {
+      const numbers = returnCylinderNumber.split(/[\n\r]+/);
+      console.log(numbers);
+      for (let i = 0; i < numbers?.length; i++) {
+        try {
+          await CylinderStock.updateOne(
+            { cylinderNumber: numbers[i] },
+            { isEmpty: true }
+          );
+        } catch (err) {
+          return res.status(401).json({
+            errorMessage: err.message,
+          });
+        }
+      }
+    }
 
     try {
       await WorkOrder.updateOne(
@@ -60,6 +78,7 @@ export default async function handler(req, res) {
           remark,
           workOfStatus,
           paymentStatus,
+          returnCylinderNumber,
         }
       );
 

@@ -13,6 +13,10 @@ const StockUsageSchema = Schema({
     type: String,
     required: true,
   },
+  quantity: {
+    type: Number,
+    required: true,
+  },
 });
 
 const StockUsage = models?.stockUsage || model("stockUsage", StockUsageSchema);

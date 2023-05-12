@@ -36,6 +36,7 @@ export default function PaymentTracking() {
     { field: "cylinderType", headerName: "Cylinder Type", width: 120 },
     { field: "partyType", headerName: "Party Type", width: 120 },
     { field: "paymentStatus", headerName: "Payment Status", width: 120 },
+    { field: "invoice", headerName: "Invoice#", width: 120 },
     {
       field: "_id",
       headerName: "Action",

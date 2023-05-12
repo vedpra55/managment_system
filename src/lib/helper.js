@@ -1,7 +1,7 @@
 const { default: CylinderStock } = require("@/models/cylinderStock");
 
 export async function GetCylinderStock(type) {
-  const stock = await CylinderStock.find({ cylinderType: type })
+  const stock = await CylinderStock.find({ cylinderType: type, isEmpty: false })
     .select("quantity")
     .lean();
 

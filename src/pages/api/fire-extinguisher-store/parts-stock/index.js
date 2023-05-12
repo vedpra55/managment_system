@@ -27,7 +27,16 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const partStocks = await FirePartsStock.find().lean();
+    const { sparePart } = req.query;
+
+    let partStocks;
+    if (sparePart) {
+      partStocks = await FirePartsStock.find({
+        $text: { $search: sparePart },
+      });
+    } else {
+      partStocks = await FirePartsStock.find().lean();
+    }
 
     return res.status(200).json({
       partStocks,

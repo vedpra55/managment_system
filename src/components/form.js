@@ -13,15 +13,18 @@ function Form({
   setInvoice,
   title,
   defaultValues,
+  fromStockUsage,
 }) {
   const { handleSubmit, register, watch, reset } = useForm();
 
   const orderType = watch("orderType");
   const realCylinderNumber = watch("cylinderNumber");
   const [cylinderStock, setCylinderStock] = useState([]);
+  const [partStocks, setPartStocks] = useState([]);
   const [cylinderNumber, setCylinderNumber] = useState("");
+  const [sparePartText, setSparePartText] = useState("");
 
-  async function handleSearch() {
+  async function handleCylinderSearch() {
     if (cylinderNumber) {
       const res = await fetch(
         `/api/cylinder-stock?cylinderNumber=${cylinderNumber.toString()}`
@@ -30,14 +33,28 @@ function Form({
       const json = await res.json();
 
       setCylinderStock(json?.cylinderStock);
+    }
+  }
 
-      console.log(json);
+  async function handlePartStockSeach() {
+    if (sparePartText) {
+      const res = await fetch(
+        `/api/fire-extinguisher-store/parts-stock?sparePart=${sparePartText.toString()}`
+      );
+
+      const json = await res.json();
+
+      setPartStocks(json?.partStocks);
     }
   }
 
   useEffect(() => {
-    handleSearch();
+    handleCylinderSearch();
   }, [cylinderNumber]);
+
+  useEffect(() => {
+    handlePartStockSeach();
+  }, [sparePartText]);
 
   useEffect(() => {
     reset(defaultValues);
@@ -68,6 +85,7 @@ function Form({
                 {!item?.values &&
                   item.type !== "autoID" &&
                   item.type !== "textArea" &&
+                  item.type !== "product" &&
                   !item?.optional && (
                     <TextInput
                       type={item?.type}
@@ -160,6 +178,34 @@ function Form({
                             </div>
                           )
                       )}
+                  </div>
+                )}
+                {item.type === "product" && fromStockUsage && (
+                  <div>
+                    <TextInput
+                      type={"text"}
+                      label={item.placeholder}
+                      name={item.name}
+                      register={register}
+                    />
+                    <input
+                      value={sparePartText}
+                      onChange={(e) => setSparePartText(e.target.value)}
+                      className="mt-2 w-[80%] overflow-hidden focus:scale-105 transition-all rounded-xl py-1 outline-gray-300  bg-transparent focus:shadow-lg px-5 border-2 placeholder:text-gray-500"
+                      type="text"
+                      placeholder="search product"
+                    />
+                    <div>
+                      {partStocks?.map((item) => (
+                        <div
+                          onClick={() => reset({ product: item.spareType })}
+                          className="my-2 bg-gray-100 rounded-lg font-medium text-[14px] py-2 px-4 cursor-pointer hover:bg-gray-300 w-64"
+                          key={item._id}
+                        >
+                          {item.spareType}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>

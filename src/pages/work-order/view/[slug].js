@@ -12,6 +12,7 @@ import useSwr from "swr";
 
 export default function CylinderCategoryPage() {
   const router = useRouter();
+  const [filterData, setFilterData] = useState(null);
   const { slug } = router.query;
   const [reloadData, setReloadData] = useState(false);
   const { data } = useSwr([slug, "work-order"], fetchWorkOrderCategory);
@@ -98,6 +99,17 @@ export default function CylinderCategoryPage() {
     },
   ];
 
+  async function handleDateFilter(toDate, fromDate) {
+    const res = await fetch(
+      `/api/work-order?category=${slug}&toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setFilterData(json?.workOrders);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -107,7 +119,8 @@ export default function CylinderCategoryPage() {
         <MyDataGrid
           title={`${slug} Work Order`}
           columns={columns}
-          data={data?.workOrders}
+          data={filterData || data?.workOrders}
+          handleDateChange={handleDateFilter}
         />
       </main>
     </>

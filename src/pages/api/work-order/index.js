@@ -69,20 +69,36 @@ export default async function handler(req, res) {
     }
   }
   if (req.method === "GET") {
-    const { category, orderType } = req.query;
-
-    const query = {
-      cylinderType: category || "",
-    };
+    const { category, orderType, toDate, fromDate } = req.query;
 
     let workOrders;
 
     if (category) {
-      workOrders = await WorkOrder.find(query).lean();
+      if (toDate && fromDate) {
+        workOrders = await WorkOrder.find({
+          cylinderType: category,
+          createdAt: { $gte: toDate, $lte: fromDate },
+        }).lean();
+      } else {
+        workOrders = await WorkOrder.find({ cylinderType: category }).lean();
+      }
     } else if (orderType) {
-      workOrders = await WorkOrder.find({ orderType: orderType }).lean();
+      if (toDate && fromDate) {
+        workOrders = await WorkOrder.find({
+          orderType: orderType,
+          createdAt: { $gte: toDate, $lte: fromDate },
+        }).lean();
+      } else {
+        workOrders = await WorkOrder.find({ orderType: orderType }).lean();
+      }
     } else {
-      workOrders = await WorkOrder.find().lean();
+      if (toDate && fromDate) {
+        workOrders = await WorkOrder.find({
+          createdAt: { $gte: toDate, $lte: fromDate },
+        }).lean();
+      } else {
+        workOrders = await WorkOrder.find().lean();
+      }
     }
 
     const totalWorkOrder = await WorkOrder.find({}).count();

@@ -45,12 +45,17 @@ export default function CylinderRotation() {
       width: 150,
     },
     {
+      field: "returnCylinderNumber",
+      headerName: "Return Cylinder Number",
+      width: 150,
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
       renderCell: (params) => (
         <ActionColumn
-          href={`/work-order/${params.value}`}
+          href={`/cylinder-rotation/${params.value}`}
           id={params.value}
           hideDelete={true}
         />

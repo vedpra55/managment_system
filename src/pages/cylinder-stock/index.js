@@ -11,6 +11,7 @@ import useApiHandler from "@/hooks/useApiHandler";
 import NumberDisplay from "@/components/NumberDisplay";
 
 export default function CylinderStock() {
+  const [filterData, setFilterData] = useState(null);
   const [reloadData, setReloadData] = useState(false);
   const { data } = useSwr(["cylinder-stock", reloadData], fetchCylinderStocks);
   const { deleteItem } = useApiHandler();
@@ -55,6 +56,11 @@ export default function CylinderStock() {
       width: 150,
     },
     {
+      field: "isEmpty",
+      headerName: "Is Empty",
+      width: 150,
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
@@ -62,6 +68,59 @@ export default function CylinderStock() {
         <ActionColumn
           handleDelete={handleDelete}
           href={`/cylinder-stock/${params.value}`}
+          id={params.value}
+        />
+      ),
+    },
+  ];
+
+  const emptyColumns = [
+    {
+      field: "date",
+      headerName: "Date",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
+      field: "cylinderType",
+      headerName: "Cylinder Type",
+      width: 150,
+    },
+    {
+      field: "size",
+      headerName: "Size",
+      width: 150,
+    },
+    {
+      field: "quantity",
+      headerName: "Quantity",
+      width: 150,
+    },
+    {
+      field: "cylinderNumber",
+      headerName: "Cylinder Number",
+      width: 150,
+    },
+    {
+      field: "isEmpty",
+      headerName: "Is Empty",
+      width: 150,
+    },
+    {
+      field: "_id",
+      headerName: "Action",
+      width: 250,
+      renderCell: (params) => (
+        <ActionColumn
+          handleDelete={handleDelete}
+          href={`/cylinder-stock/${params.value}?isEmpty=true`}
           id={params.value}
         />
       ),
@@ -76,6 +135,17 @@ export default function CylinderStock() {
     "Total Fire extinguisher Stock",
     "Total acetylene stock",
   ];
+
+  async function handleDateFilter(toDate, fromDate) {
+    const res = await fetch(
+      `/api/cylinder-stock?toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setFilterData(json?.cylinderStocks);
+    }
+  }
 
   return (
     <>
@@ -93,12 +163,24 @@ export default function CylinderStock() {
           {data?.amounts.map((item, i) => (
             <NumberDisplay title={labels[i]} amount={item} />
           ))}
+          <NumberDisplay
+            title={"Total Empty Stock"}
+            amount={data?.emptyStocks?.length}
+          />
         </div>
 
         <MyDataGrid
           title={"Cylinder Stocks"}
           columns={columns}
-          data={data?.cylinderStocks}
+          data={filterData || data?.cylinderStocks}
+          handleDateChange={handleDateFilter}
+        />
+
+        <MyDataGrid
+          title={"Empty Cylinder Stocks"}
+          columns={emptyColumns}
+          data={data?.emptyStocks}
+          handleDateChange={handleDateFilter}
         />
       </main>
     </>

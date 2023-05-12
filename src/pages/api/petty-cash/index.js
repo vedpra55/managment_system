@@ -31,10 +31,18 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const { cashType } = req.query;
+    const { cashType, toDate, fromDate } = req.query;
 
     if (cashType) {
-      const pettyCash = await PettyCash.find({ cashType }).lean();
+      let pettyCash;
+      if (toDate && fromDate) {
+        pettyCash = await PettyCash.find({
+          cashType,
+          createdAt: { $gte: toDate, $lte: fromDate },
+        }).lean();
+      } else {
+        pettyCash = await PettyCash.find({ cashType }).lean();
+      }
 
       let amount = 0;
 

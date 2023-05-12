@@ -166,6 +166,7 @@ export default function FireExtinguisherStore() {
     },
     { field: "product", headerName: "Product", width: 200 },
     { field: "workOrder", headerName: "Work Order", width: 200 },
+    { field: "quantity", headerName: "Quantity", width: 200 },
     {
       field: "_id",
       headerName: "Action",
