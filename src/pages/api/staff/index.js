@@ -27,7 +27,17 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const staffs = await Staff.find({});
+    const { toDate, fromDate } = req.query;
+
+    let staffs;
+
+    if (toDate && fromDate) {
+      staffs = await Staff.find({
+        createdAt: { $gte: toDate, $lte: fromDate },
+      }).lean();
+    } else {
+      staffs = await Staff.find({});
+    }
 
     const totalStaffs = await Staff.count();
 

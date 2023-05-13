@@ -43,6 +43,19 @@ export default function CylinderCategoryPage() {
         );
       },
     },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
     { field: "orderType", headerName: "Order Type", width: 100 },
     { field: "cylinderType", headerName: "Cylinder Type", width: 120 },
     { field: "cylinderNumber", headerName: "Cylinder Number", width: 120 },
@@ -117,7 +130,7 @@ export default function CylinderCategoryPage() {
       </Head>
       <main className="my-container">
         <MyDataGrid
-          title={`${slug} Work Order`}
+          title={`${slug.toUpperCase()} Work Order`}
           columns={columns}
           data={filterData || data?.workOrders}
           handleDateChange={handleDateFilter}

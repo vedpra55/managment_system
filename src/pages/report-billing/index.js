@@ -70,6 +70,19 @@ export default function ReportBilling() {
       width: 150,
     },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,

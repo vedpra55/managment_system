@@ -30,7 +30,17 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const productPurchases = await ProductPurchase.find({}).lean();
+    const { toDate, fromDate } = req.query;
+
+    let productPurchases;
+
+    if (toDate && fromDate) {
+      productPurchases = await ProductPurchase.find({
+        createdAt: { $gte: toDate, $lte: fromDate },
+      }).lean();
+    } else {
+      productPurchases = await ProductPurchase.find({}).lean();
+    }
 
     res.status(200).json({
       productPurchases,

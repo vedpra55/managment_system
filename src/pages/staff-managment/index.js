@@ -12,7 +12,7 @@ import useSwr from "swr";
 export default function StaffManagment() {
   const [reload, setReload] = useState(false);
   const { data } = useSwr(["staffs", reload], fetchStaff);
-
+  const [filterData, setFilterData] = useState(null);
   const { deleteItem } = useApiHandler();
 
   async function handleDelete(id) {
@@ -34,6 +34,19 @@ export default function StaffManagment() {
     { field: "phoneNumber", headerName: "Phone Number", width: 150 },
     { field: "address", headerName: "Address", width: 200 },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 400,
@@ -46,6 +59,15 @@ export default function StaffManagment() {
       ),
     },
   ];
+
+  async function handleDateFilter(toDate, fromDate) {
+    const res = await fetch(`/api/staff?toDate=${toDate}&fromDate=${fromDate}`);
+    const json = await res.json();
+
+    if (res.ok) {
+      setFilterData(json?.staffs);
+    }
+  }
 
   return (
     <>
@@ -62,7 +84,8 @@ export default function StaffManagment() {
         <MyDataGrid
           title={"Staff Managment"}
           columns={columns}
-          data={data?.staffs}
+          data={filterData || data?.staffs}
+          handleDateChange={handleDateFilter}
         />
       </main>
     </>

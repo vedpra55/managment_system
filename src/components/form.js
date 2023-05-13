@@ -19,6 +19,8 @@ function Form({
 
   const orderType = watch("orderType");
   const realCylinderNumber = watch("cylinderNumber");
+  const fillingStatus = watch("isFilled");
+
   const [cylinderStock, setCylinderStock] = useState([]);
   const [partStocks, setPartStocks] = useState([]);
   const [cylinderNumber, setCylinderNumber] = useState("");
@@ -59,6 +61,14 @@ function Form({
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
+
+  useEffect(() => {
+    if (fillingStatus === true) {
+      reset({
+        quantity: 1,
+      });
+    }
+  }, [fillingStatus]);
 
   return (
     <>

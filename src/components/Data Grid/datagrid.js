@@ -29,7 +29,7 @@ export default function MyDataGrid({ data, columns, title, handleDateChange }) {
 
       <div className="mt-10 flex gap-x-10">
         <div>
-          <p className="text-[14px] font-medium">To :</p>
+          <p className="text-[14px] font-medium">From :</p>
           <input
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
@@ -38,7 +38,7 @@ export default function MyDataGrid({ data, columns, title, handleDateChange }) {
           />
         </div>
         <div>
-          <p className="text-[14px] font-medium">From :</p>
+          <p className="text-[14px] font-medium">To :</p>
           <input
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}

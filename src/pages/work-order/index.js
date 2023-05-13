@@ -42,6 +42,19 @@ export default function WorkOrder() {
         );
       },
     },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
     { field: "orderType", headerName: "Order Type", width: 100 },
     { field: "cylinderType", headerName: "Cylinder Type", width: 120 },
     { field: "cylinderNumber", headerName: "Cylinder Number", width: 120 },

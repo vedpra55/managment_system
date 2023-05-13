@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const { sparePart } = req.query;
+    const { sparePart, toDate, fromDate } = req.query;
 
     let partStocks;
     if (sparePart) {
@@ -36,6 +36,12 @@ export default async function handler(req, res) {
       });
     } else {
       partStocks = await FirePartsStock.find().lean();
+    }
+
+    if (toDate && fromDate) {
+      partStocks = await FirePartsStock.find({
+        createdAt: { $gte: toDate, $lte: fromDate },
+      }).lean();
     }
 
     return res.status(200).json({

@@ -14,6 +14,11 @@ import { BsHddNetworkFill } from "react-icons/bs";
 import useSwr from "swr";
 
 export default function FireExtinguisherStore() {
+  const [partStockFilterData, setPartStockFilterData] = useState(null);
+  const [productPurchaseFilterData, setProductPurchaseFilterData] =
+    useState(null);
+  const [stockUsageFilterData, setStockUsageFilterData] = useState(null);
+
   const [reload1, setReload1] = useState(false);
   const [reload2, setReload2] = useState(false);
   const [reload3, setReload3] = useState(false);
@@ -78,6 +83,19 @@ export default function FireExtinguisherStore() {
       width: 150,
     },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
@@ -137,6 +155,19 @@ export default function FireExtinguisherStore() {
       width: 150,
     },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
@@ -168,6 +199,19 @@ export default function FireExtinguisherStore() {
     { field: "workOrder", headerName: "Work Order", width: 200 },
     { field: "quantity", headerName: "Quantity", width: 200 },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
@@ -180,6 +224,39 @@ export default function FireExtinguisherStore() {
       ),
     },
   ];
+
+  async function handleDatePartStock(toDate, fromDate) {
+    const res = await fetch(
+      `/api/fire-extinguisher-store/parts-stock?toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setPartStockFilterData(json?.partStocks);
+    }
+  }
+
+  async function handleDateProductPurchase(toDate, fromDate) {
+    const res = await fetch(
+      `/api/fire-extinguisher-store/product-purchase?toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setProductPurchaseFilterData(json?.productPurchases);
+    }
+  }
+
+  async function handleDateStockUsage(toDate, fromDate) {
+    const res = await fetch(
+      `/api/fire-extinguisher-store/stock-usage?toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setStockUsageFilterData(json?.stockUsage);
+    }
+  }
 
   return (
     <>
@@ -211,17 +288,22 @@ export default function FireExtinguisherStore() {
           <MyDataGrid
             title={"Part Stocks"}
             columns={partColumns}
-            data={partStocks?.partStocks}
+            data={partStockFilterData || partStocks?.partStocks}
+            handleDateChange={handleDatePartStock}
           />
           <MyDataGrid
             title={"Product Purchase"}
             columns={productPurchaseColumns}
-            data={productPurchase?.productPurchases}
+            data={
+              productPurchaseFilterData || productPurchase?.productPurchases
+            }
+            handleDateChange={handleDateProductPurchase}
           />
           <MyDataGrid
             title={"Stock Usage"}
             columns={stockUsageColumn}
-            data={stockUsage?.stockUsage}
+            data={stockUsageFilterData || stockUsage?.stockUsage}
+            handleDateChange={handleDateStockUsage}
           />
         </div>
       </main>

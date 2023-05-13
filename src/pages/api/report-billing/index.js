@@ -39,7 +39,17 @@ export default async function handler(req, res) {
     }
   }
   if (req.method === "GET") {
-    const reportBilling = await ReportBilling.find({}).lean();
+    const { toDate, fromDate } = req.query;
+
+    let reportBilling;
+
+    if (toDate && fromDate) {
+      stockUsage = await ReportBilling.find({
+        createdAt: { $gte: toDate, $lte: fromDate },
+      }).lean();
+    }
+
+    reportBilling = await ReportBilling.find({}).lean();
 
     return res.status(200).json({
       reportBilling,

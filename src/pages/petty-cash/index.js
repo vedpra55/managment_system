@@ -11,6 +11,9 @@ import useApiHandler from "@/hooks/useApiHandler";
 
 export default function PettyCash() {
   const [reloadData, setReloadData] = useState(false);
+  const [cashInFilterData, setCashInFilterData] = useState(null);
+  const [cashOutFilterData, setCashOutFilterData] = useState(null);
+
   const { data: cashIn } = useSwr(
     ["cash-in", "petty-cash", reloadData],
     fetchPettyCash
@@ -67,6 +70,19 @@ export default function PettyCash() {
       width: 150,
     },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
@@ -79,6 +95,28 @@ export default function PettyCash() {
       ),
     },
   ];
+
+  async function handleDateCashIn(toDate, fromDate) {
+    const res = await fetch(
+      `/api/petty-cash?toDate=${toDate}&fromDate=${fromDate}&cashType=cash-in`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setCashInFilterData(json?.pettyCash);
+    }
+  }
+
+  async function handleDateCashOut(toDate, fromDate) {
+    const res = await fetch(
+      `/api/petty-cash?toDate=${toDate}&fromDate=${fromDate}&cashType=cash-out`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setCashOutFilterData(json?.pettyCash);
+    }
+  }
 
   return (
     <>
@@ -100,25 +138,30 @@ export default function PettyCash() {
             href={"/petty-cash/new/cash-out"}
           />
         </div>
-        <div className="mt-10 shadow-sm px-5 py-3 w-72 rounded-md border bg-white">
-          <p className="font-semibold text-xl">
-            Total Cash In : {cashIn?.amount}
-          </p>
+        <div className="flex gap-x-10">
+          <div className="mt-10 shadow-sm px-5 py-3 w-72 rounded-md border bg-white">
+            <p className="font-semibold text-xl">
+              Total Cash In : {cashIn?.amount}
+            </p>
+          </div>
+          <div className="mt-10 shadow-sm px-5 py-3 w-72 rounded-md border bg-white">
+            <p className="font-semibold text-xl">
+              Total Cash Out : {cashOut?.amount}
+            </p>
+          </div>
         </div>
         <MyDataGrid
           title={"Petty Cash - Cash In"}
           columns={columns}
-          data={cashIn?.pettyCash}
+          data={cashInFilterData || cashIn?.pettyCash}
+          handleDateChange={handleDateCashIn}
         />
-        <div className="mt-10 shadow-sm px-5 py-3 w-72 rounded-md border bg-white">
-          <p className="font-semibold text-xl">
-            Total Cash Out : {cashOut?.amount}
-          </p>
-        </div>
+
         <MyDataGrid
           title={"Petty Cash - Cash Out"}
           columns={columns}
-          data={cashOut?.pettyCash}
+          data={cashOutFilterData || cashOut?.pettyCash}
+          handleDateChange={handleDateCashOut}
         />
       </main>
     </>

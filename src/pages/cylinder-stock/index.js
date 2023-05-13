@@ -61,6 +61,19 @@ export default function CylinderStock() {
       width: 150,
     },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
@@ -114,6 +127,19 @@ export default function CylinderStock() {
       width: 150,
     },
     {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+      renderCell: (params) => {
+        const myDate = new Date(params.value);
+        return (
+          <p>
+            {myDate.getDate()}/{myDate.getUTCMonth() + 1}/{myDate.getFullYear()}
+          </p>
+        );
+      },
+    },
+    {
       field: "_id",
       headerName: "Action",
       width: 250,
@@ -139,6 +165,17 @@ export default function CylinderStock() {
   async function handleDateFilter(toDate, fromDate) {
     const res = await fetch(
       `/api/cylinder-stock?toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setFilterData(json?.cylinderStocks);
+    }
+  }
+
+  async function handleDateIsEmptyFilter(toDate, fromDate) {
+    const res = await fetch(
+      `/api/cylinder-stock?toDate=${toDate}&fromDate=${fromDate}?isEmpty=true`
     );
     const json = await res.json();
 
@@ -180,7 +217,7 @@ export default function CylinderStock() {
           title={"Empty Cylinder Stocks"}
           columns={emptyColumns}
           data={data?.emptyStocks}
-          handleDateChange={handleDateFilter}
+          handleDateChange={handleDateIsEmptyFilter}
         />
       </main>
     </>
