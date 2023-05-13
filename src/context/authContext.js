@@ -7,7 +7,7 @@ const AuthenticationConext = createContext();
 
 export default function AuthContext({ children }) {
   const [authState, setAuthState] = useState({
-    loading: false,
+    loading: true,
     data: null,
     error: null,
   });

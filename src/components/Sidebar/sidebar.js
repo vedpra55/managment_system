@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaNetworkWired } from "react-icons/fa";
 import { BiCylinder, BiStoreAlt } from "react-icons/bi";
 import { AiOutlineStock } from "react-icons/ai";
@@ -15,8 +15,29 @@ import { GiClockwiseRotation } from "react-icons/gi";
 
 import SidebarItem from "./sidebarItem";
 
+import { useAuthState } from "@/context/authContext";
+import { useRouter } from "next/router";
+
 export default function Sidebar({ children }) {
   const [selectedTab, setSelectedTab] = useState(null);
+  const router = useRouter();
+  const { data, loading } = useAuthState();
+
+  useEffect(() => {
+    const url = router.pathname;
+
+    if (loading) return;
+
+    if (!loading) {
+      if (url !== "/account/login") {
+        if (!data?.email) {
+          router.push("/account/login");
+        }
+      } else if (!data) {
+        router.push("/account/login");
+      }
+    }
+  }, [data, children]);
 
   const tabs = [
     {
@@ -97,17 +118,21 @@ export default function Sidebar({ children }) {
     },
   ];
 
+  if (loading) {
+    return (
+      <div className="flex items-center  h-screen justify-center">
+        <p className="text-xl font-medium">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-12 relative  overflow-x-hidden h-screen max-h-screen">
       <div className=" md:col-span-2 xl:col-span-2 3xl:col-span-1          h-screen ">
         <div className="fixed bg-slate-50 h-screen border-r pb-10   md:w-48 xl:w-48 2xl:w-64 overflow-y-scroll">
           <div className="h-20 flex items-center">
             <Link className="px-5" href={"/"}>
-              <img
-                src="https://stocky.untitledsoft.com/images/logo-default.png"
-                alt="logo"
-                className="w-16"
-              />
+              <img src="/logo.jpeg" alt="avatar" className="w-56" />
             </Link>
           </div>
           <hr />

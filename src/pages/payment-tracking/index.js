@@ -83,6 +83,7 @@ export default function PaymentTracking() {
       </Head>
       <div className="my-container ">
         <MyDataGrid
+          mt={"mt-0"}
           title={"Payment Tracking"}
           columns={columns}
           data={filterData || data?.workOrders}

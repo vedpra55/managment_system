@@ -130,6 +130,7 @@ export default function CylinderCategoryPage() {
       </Head>
       <main className="my-container">
         <MyDataGrid
+          mt={"mt-0"}
           title={`${slug.toUpperCase()} Work Order`}
           columns={columns}
           data={filterData || data?.workOrders}

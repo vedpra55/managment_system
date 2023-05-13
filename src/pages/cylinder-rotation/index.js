@@ -83,6 +83,7 @@ export default function CylinderRotation() {
       <main className="my-container">
         <MyDataGrid
           title={"Cylinder Rotation"}
+          mt={"mt-0"}
           columns={columns}
           data={filterData || data?.workOrders}
           handleDateChange={handleDateFilter}

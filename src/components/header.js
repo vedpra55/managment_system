@@ -1,30 +1,35 @@
 import { useAuthState } from "@/context/authContext";
+import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 
 export default function Header() {
-  const { data, isLoading } = useAuthState();
+  const { data, loading } = useAuthState();
+  const { logout } = useAuth();
 
-  console.log(data);
+  const role = data?.role;
 
   return (
     <>
       <header className=" container mx-auto px-10 h-20 flex items-center justify-end ">
         <div>
-          {data && !isLoading ? (
+          {data && !loading ? (
             <div className="flex gap-x-5">
               <div>
-                <h3 className="text-2xl font-semibold">Welcome {data?.name}</h3>
                 <p className="text-[15px] font-medium pt-1">
                   Role - {data?.role}
                 </p>
+                <p
+                  onClick={() => logout()}
+                  className=" text-red-500 font-medium cursor-pointer  "
+                >
+                  Logout
+                </p>
               </div>
-              <button>
-                <img
-                  src="https://stocky.untitledsoft.com/images/avatar/no_avatar.png"
-                  alt="avatar"
-                  className="w-10"
-                />
-              </button>
+              {role === "owner" && (
+                <Link href={"/account"} className="main-btn">
+                  Account
+                </Link>
+              )}
             </div>
           ) : (
             <div>

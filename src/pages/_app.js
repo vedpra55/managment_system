@@ -1,5 +1,6 @@
 import Header from "@/components/header";
 import AuthContext from "@/context/authContext";
+
 import "@/styles/globals.css";
 import { useEffect, useState } from "react";
 

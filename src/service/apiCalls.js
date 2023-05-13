@@ -116,3 +116,8 @@ export async function fetchCylinerSales(arg) {
   );
   return res.json();
 }
+
+export async function fetchUsers() {
+  const res = await fetch(`/api/auth/users`);
+  return res.json();
+}

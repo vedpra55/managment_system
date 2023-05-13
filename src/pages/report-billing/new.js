@@ -58,7 +58,7 @@ export default function ReportBillingDetails() {
       name: "paymentStatus",
       type: "select",
       placeholder: "Payment Status",
-      values: ["PAID", "HOLD", "PARTIALLY PAID"],
+      values: ["PAID", "HOLD", "PARTIAL"],
       required: true,
     },
     {

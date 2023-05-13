@@ -1,12 +1,14 @@
 import { useAuthState } from "@/context/authContext";
 import axios from "axios";
 import { removeCookies } from "cookies-next";
+import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
 const useAuth = () => {
   const SIGN_URL = "/api/auth/signin";
 
-  const { setAuthState } = useAuthState();
+  const { setAuthState, data, loading } = useAuthState();
+  const router = useRouter();
 
   async function signin(email, password) {
     setAuthState({
@@ -46,9 +48,28 @@ const useAuth = () => {
     });
   }
 
+  function checkRole(page) {
+    if (loading) return;
+
+    if (data?.role != "owner" && page === "financial") {
+      toast.error("You don't have access");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
+
+    if (data?.role != "owner" && page === "account") {
+      toast.error("You don't have access");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
+  }
+
   return {
     signin,
     logout,
+    checkRole,
   };
 };
 

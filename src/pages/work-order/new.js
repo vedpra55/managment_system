@@ -104,13 +104,13 @@ export default function NewWorkOrderPage() {
       name: "modeOfPayment",
       placeholder: "Mode of Payment",
       required: false,
-      values: ["Select", "UPI", "CASH", "CHEQE", "NEFT"],
+      values: ["UPI", "CASH", "CHEQE", "NEFT"],
     },
     {
       name: "paymentStatus",
       placeholder: "Payment Status",
       required: false,
-      values: ["Select", "PENDING", "DONE"],
+      values: ["PENDING", "PARTIAL ", "DONE"],
     },
     {
       name: "dueDate",

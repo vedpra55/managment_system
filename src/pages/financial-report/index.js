@@ -1,14 +1,22 @@
 import Sidebar from "@/components/Sidebar/sidebar";
+import useAuth from "@/hooks/useAuth";
 import AmountDisplay from "@/pageComponents/financial-report/amountDisplay";
 import CylinderSalesBarChart from "@/pageComponents/financial-report/charts/cylinderSalesBarChart";
 import TotalSalesPieChart from "@/pageComponents/financial-report/charts/totalSalesPieChart";
 import CylinderAmountDisplay from "@/pageComponents/financial-report/cylinderAmountDisplay";
 import { fetchFinancialReport } from "@/service/apiCalls";
 import Head from "next/head";
+import { useEffect } from "react";
 import useSwr from "swr";
 
 export default function FinancialReport() {
   const { data } = useSwr("financial-report", fetchFinancialReport);
+
+  const { checkRole } = useAuth();
+
+  useEffect(() => {
+    checkRole("financial");
+  }, []);
 
   if (!data)
     return (
@@ -16,8 +24,6 @@ export default function FinancialReport() {
         <p>Loading...</p>
       </div>
     );
-
-  console.log(data);
 
   return (
     <>

@@ -1,5 +1,4 @@
 import User from "@/models/user";
-import validator from "validator";
 import bcrypt from "bcrypt";
 import * as jose from "jose";
 import dbConnect from "@/lib/db";
@@ -11,53 +10,9 @@ export default async function handler(req, res) {
     const { name, position, department, phoneNumber, role, email, password } =
       req.body;
 
-    const errors = [];
-
-    const validatorSchema = [
-      {
-        valid: validator.isLength(name, {
-          min: 1,
-          max: 20,
-        }),
-        errorMessage: "Name is invalid",
-      },
-      {
-        valid: validator.isLength(position, {
-          min: 1,
-          max: 20,
-        }),
-        errorMessage: "Position is invalid",
-      },
-
-      {
-        valid: validator.isMobilePhone(phoneNumber),
-        errorMessage: "Phone number is invalid",
-      },
-      {
-        valid: validator.isLength(password, {
-          min: 5,
-          max: 20,
-        }),
-        errorMessage: "Password is invalid",
-      },
-      {
-        valid: validator.isEmail(email, {
-          min: 1,
-          max: 20,
-        }),
-        errorMessage: "Email is invalid",
-      },
-    ];
-
-    validatorSchema.forEach((check) => {
-      if (!check.valid) {
-        errors.push(check.errorMessage);
-      }
-    });
-
-    if (errors.length) {
-      return res.status(400).json({
-        errorMessage: errors[0],
+    if (!email || !password) {
+      return res.status(200).json({
+        errorMessage: "Invalide Data",
       });
     }
 
