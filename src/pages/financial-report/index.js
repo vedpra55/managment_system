@@ -1,4 +1,5 @@
 import Sidebar from "@/components/Sidebar/sidebar";
+import { useAuthState } from "@/context/authContext";
 import useAuth from "@/hooks/useAuth";
 import AmountDisplay from "@/pageComponents/financial-report/amountDisplay";
 import CylinderSalesBarChart from "@/pageComponents/financial-report/charts/cylinderSalesBarChart";
@@ -13,6 +14,7 @@ export default function FinancialReport() {
   const { data } = useSwr("financial-report", fetchFinancialReport);
 
   const { checkRole } = useAuth();
+  const { data: user } = useAuthState();
 
   useEffect(() => {
     checkRole("financial");
@@ -30,15 +32,17 @@ export default function FinancialReport() {
       <Head>
         <title>Financial Report</title>
       </Head>
-      <main className="my-container">
-        <AmountDisplay amounts={data?.amounts} />
-        <div className="my-14"></div>
-        <CylinderAmountDisplay amounts={data?.cylinderAmounts} />
-        <div className="my-14"></div>
-        <TotalSalesPieChart sales={data?.sales} />
-        <div className="my-14"></div>
-        <CylinderSalesBarChart />
-      </main>
+      {user?.role === "owner" && (
+        <main className="my-container">
+          <AmountDisplay amounts={data?.amounts} />
+          <div className="my-14"></div>
+          <CylinderAmountDisplay amounts={data?.cylinderAmounts} />
+          <div className="my-14"></div>
+          <TotalSalesPieChart sales={data?.sales} />
+          <div className="my-14"></div>
+          <CylinderSalesBarChart />
+        </main>
+      )}
     </>
   );
 }
