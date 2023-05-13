@@ -9,6 +9,8 @@ import ActionColumn from "@/components/actionColumn";
 import Head from "next/head";
 import useApiHandler from "@/hooks/useApiHandler";
 
+import { BsPlusLg } from "react-icons/bs";
+
 export default function ReportBilling() {
   const [reloadData, setReloadData] = useState(false);
   const { data } = useSwr(["report-billing", reloadData], fetchReportBilling);
@@ -105,7 +107,7 @@ export default function ReportBilling() {
         <LinkButton
           href={"/report-billing/new"}
           label={"New Report Billing"}
-          icon={<BsHddNetworkFill />}
+          icon={<BsPlusLg />}
         />
 
         <DataGrid

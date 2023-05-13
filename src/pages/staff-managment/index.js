@@ -6,7 +6,8 @@ import useApiHandler from "@/hooks/useApiHandler";
 import { fetchStaff } from "@/service/apiCalls";
 import Head from "next/head";
 import React, { useState } from "react";
-import { BsHddNetworkFill } from "react-icons/bs";
+
+import { BsPlusLg } from "react-icons/bs";
 import useSwr from "swr";
 
 export default function StaffManagment() {
@@ -77,7 +78,7 @@ export default function StaffManagment() {
       <main className="my-container">
         <LinkButton
           w={"w-40"}
-          icon={<BsHddNetworkFill />}
+          icon={<BsPlusLg />}
           label={"New Staff"}
           href={"/staff-managment/new"}
         />

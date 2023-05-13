@@ -17,7 +17,7 @@ export default function ActionColumn({ id, href, handleDelete, hideDelete }) {
         <MyButton
           w={"w-24"}
           c={" bg-red-600"}
-          tc={"text-white"}
+          tc={"text-black"}
           handleClick={() => handleDelete(id)}
           icon={<MdDelete />}
           label={"Delete"}

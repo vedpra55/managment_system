@@ -3,6 +3,7 @@ import MyDataGrid from "@/components/Data Grid/datagrid";
 import Sidebar from "@/components/Sidebar/sidebar";
 import ActionColumn from "@/components/actionColumn";
 import useApiHandler from "@/hooks/useApiHandler";
+import { BsPlusLg } from "react-icons/bs";
 import {
   fetchPartsStocks,
   fetchProductPurchase,
@@ -10,7 +11,7 @@ import {
 } from "@/service/apiCalls";
 import Head from "next/head";
 import React, { useState } from "react";
-import { BsHddNetworkFill } from "react-icons/bs";
+
 import useSwr from "swr";
 
 export default function FireExtinguisherStore() {
@@ -267,19 +268,19 @@ export default function FireExtinguisherStore() {
         <div className="flex gap-x-10">
           <LinkButton
             w={"w-48"}
-            icon={<BsHddNetworkFill />}
+            icon={<BsPlusLg />}
             href={"/fire-extinguisher-store/parts-stock"}
             label={"Add Parts Stock"}
           />
           <LinkButton
             w={"w-64"}
-            icon={<BsHddNetworkFill />}
+            icon={<BsPlusLg />}
             href={"/fire-extinguisher-store/product-purchase"}
             label={"Add Prodcut Purchase"}
           />
           <LinkButton
             w={"w-64"}
-            icon={<BsHddNetworkFill />}
+            icon={<BsPlusLg />}
             href={"/fire-extinguisher-store/stock-usage/new"}
             label={"Add Stock Usage"}
           />

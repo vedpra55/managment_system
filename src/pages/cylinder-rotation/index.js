@@ -4,11 +4,12 @@ import ActionColumn from "@/components/actionColumn";
 
 import { fetchWorkOrderType } from "@/service/apiCalls";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import useSwr from "swr";
 
 export default function CylinderRotation() {
   const { data } = useSwr(["SALE"], fetchWorkOrderType);
+  const [filterData, setFilterData] = useState(null);
 
   const columns = [
     {
@@ -63,6 +64,17 @@ export default function CylinderRotation() {
     },
   ];
 
+  async function handleDateFilter(toDate, fromDate) {
+    const res = await fetch(
+      `/api/work-order?toDate=${toDate}&fromDate=${fromDate}&orderType=SALE`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setFilterData(json?.workOrders);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -72,7 +84,8 @@ export default function CylinderRotation() {
         <MyDataGrid
           title={"Cylinder Rotation"}
           columns={columns}
-          data={data?.workOrders}
+          data={filterData || data?.workOrders}
+          handleDateChange={handleDateFilter}
         />
       </main>
     </>

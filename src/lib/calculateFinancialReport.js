@@ -6,7 +6,9 @@ import WorkOrder from "@/models/workOrder";
 export async function CalculateAmounts() {
   const workOrderAmounts = await WorkOrder.find({}).select("billAmount");
   const reportBillingAmounts = await ReportBilling.find({}).select("amount");
-  const pettyCashAmounts = await PettyCash.find({}).select("amount");
+  const pettyCashAmounts = await PettyCash.find({
+    cashType: "cash-out",
+  }).select("amount");
   const productPurchaseAmounts = await ProductPurchase.find({}).select(
     "amount"
   );

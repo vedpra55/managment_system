@@ -2,7 +2,7 @@ import Sidebar from "@/components/Sidebar/sidebar";
 
 import useSwr from "swr";
 
-import { BsHddNetworkFill } from "react-icons/bs";
+import { BsPlusLg } from "react-icons/bs";
 import { fetchWorkOrder } from "@/service/apiCalls";
 
 import LinkButton from "@/components/Button/button";
@@ -127,7 +127,7 @@ export default function WorkOrder() {
       <LinkButton
         href={"/work-order/new"}
         label={"New Work Order"}
-        icon={<BsHddNetworkFill />}
+        icon={<BsPlusLg />}
       />
       <NumberDisplay
         w={"w-56"}

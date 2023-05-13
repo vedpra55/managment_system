@@ -10,7 +10,7 @@ import useSwr from "swr";
 export default function PaymentTracking() {
   const [reloadData, setReloadData] = useState(false);
   const { data } = useSwr(["work-order", reloadData], fetchWorkOrder);
-
+  const [filterData, setFilterData] = useState(null);
   const { deleteItem } = useApiHandler();
 
   async function handleDelete(id) {
@@ -37,6 +37,7 @@ export default function PaymentTracking() {
     { field: "partyType", headerName: "Party Type", width: 120 },
     { field: "paymentStatus", headerName: "Payment Status", width: 120 },
     { field: "invoice", headerName: "Invoice#", width: 120 },
+    { field: "partyDetails", headerName: "Party Details", width: 120 },
     {
       field: "createdAt",
       headerName: "Created At",
@@ -64,6 +65,17 @@ export default function PaymentTracking() {
     },
   ];
 
+  async function handleDateFilter(toDate, fromDate) {
+    const res = await fetch(
+      `/api/work-order?toDate=${toDate}&fromDate=${fromDate}`
+    );
+    const json = await res.json();
+
+    if (res.ok) {
+      setFilterData(json?.workOrders);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -73,7 +85,8 @@ export default function PaymentTracking() {
         <MyDataGrid
           title={"Payment Tracking"}
           columns={columns}
-          data={data?.workOrders}
+          data={filterData || data?.workOrders}
+          handleDateChange={handleDateFilter}
         />
       </div>
     </>

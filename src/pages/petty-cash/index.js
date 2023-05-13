@@ -1,13 +1,15 @@
 import LinkButton from "@/components/Button/button";
 import Sidebar from "@/components/Sidebar/sidebar";
 import Head from "next/head";
-import { BsHddNetworkFill } from "react-icons/bs";
+
 import React, { useState } from "react";
 import useSwr from "swr";
 import { fetchPettyCash } from "@/service/apiCalls";
 import MyDataGrid from "@/components/Data Grid/datagrid";
 import ActionColumn from "@/components/actionColumn";
 import useApiHandler from "@/hooks/useApiHandler";
+
+import { BsPlusLg } from "react-icons/bs";
 
 export default function PettyCash() {
   const [reloadData, setReloadData] = useState(false);
@@ -127,13 +129,13 @@ export default function PettyCash() {
         <div className="flex gap-x-10">
           <LinkButton
             w={"w-[16rem]"}
-            icon={<BsHddNetworkFill />}
+            icon={<BsPlusLg />}
             label={"New Petty Cash - Cash In"}
             href={"/petty-cash/new/cash-in"}
           />
           <LinkButton
             w={"w-[17rem]"}
-            icon={<BsHddNetworkFill />}
+            icon={<BsPlusLg />}
             label={"New Petty Cash - Cash Out"}
             href={"/petty-cash/new/cash-out"}
           />

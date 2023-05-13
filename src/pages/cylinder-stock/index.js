@@ -1,10 +1,11 @@
 import LinkButton from "@/components/Button/button";
 import Sidebar from "@/components/Sidebar/sidebar";
-import { BiCylinder } from "react-icons/bi";
+
 import Head from "next/head";
 import React, { useState } from "react";
 import useSwr from "swr";
 import { fetchCylinderStocks } from "@/service/apiCalls";
+import { BsPlusLg } from "react-icons/bs";
 import MyDataGrid from "@/components/Data Grid/datagrid";
 import ActionColumn from "@/components/actionColumn";
 import useApiHandler from "@/hooks/useApiHandler";
@@ -193,7 +194,7 @@ export default function CylinderStock() {
         <LinkButton
           href={"/cylinder-stock/new"}
           label={"New Cylinder Stock"}
-          icon={<BiCylinder />}
+          icon={<BsPlusLg />}
         />
 
         <div className="mt-5 grid grid-cols-12 gap-5">
