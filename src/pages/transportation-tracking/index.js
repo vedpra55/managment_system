@@ -9,6 +9,7 @@ import { BsPlusLg } from "react-icons/bs";
 import useSwr from "swr";
 
 import { BiCylinder } from "react-icons/bi";
+import { useAuthState } from "@/context/authContext";
 
 export default function TransportationTracking() {
   const [reload, setReload] = useState(false);
@@ -73,8 +74,7 @@ TransportationTracking.getLayout = function getLayout(page, pageProps) {
 
 function TrackingCard({ item, handleDelete }) {
   const createdAt = new Date(item.createdAt);
-
-  console.log(item);
+  const { data: user } = useAuthState();
 
   const isReceived = item.receivedStatus;
   return (
@@ -108,14 +108,16 @@ function TrackingCard({ item, handleDelete }) {
         >
           <p>View</p>
         </Link>
-        <button
-          onClick={() =>
-            handleDelete(item._id, item.fromPortBlair, item.fromChennai)
-          }
-          className="main-btn py-1 h-8 bg-red-500"
-        >
-          Delete
-        </button>
+        {user?.role != "assistant-manager" && (
+          <button
+            onClick={() =>
+              handleDelete(item._id, item.fromPortBlair, item.fromChennai)
+            }
+            className="main-btn py-1 h-8 bg-red-500"
+          >
+            Delete
+          </button>
+        )}
       </div>
     </div>
   );
