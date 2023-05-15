@@ -136,7 +136,7 @@ export default function Sidebar({ children }) {
             </Link>
           </div>
           <hr />
-          <div className="px-5  flex flex-col gap-y-10 mt-10">
+          <div className="md:px-2 2xl:px-5  flex flex-col gap-y-10 mt-10">
             {tabs.map((item, i) =>
               i === selectedTab ? (
                 <SidebarItem

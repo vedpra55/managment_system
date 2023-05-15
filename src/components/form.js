@@ -90,7 +90,6 @@ function Form({
       </div>
       <div className="w-full mt-10  bg-white rounded-lg myshadow">
         <form
-          onKeyDown={(e) => checkKeyDown(e)}
           onSubmit={handleSubmit((data) => handleSumbitForm(data))}
           className="grid grid-cols-12 gap-5 p-5"
         >
